@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<!-- head -->
+<%- include('../layouts/head.ejs') %>
+<body>
+    <div class="wrapper">
+        <!-- phần header -->
+        <%- include('../layouts/mainheader.ejs') %>
+        <!-- thanh sidebar -->
+        <%- include('../layouts/sidebar.ejs') %>
+        <div class="main-panel">
+            <%- include('../components/notifications.ejs'); %>
+            <!-- phần footer -->
+            <%- include('../layouts/footer.ejs') %>
+        </div>
+    </div>
+
+    <!-- Hộp thoại Modal -->
+</body>
+<!-- phần script -->
+<%- include('../layouts/script/mainscript.ejs'); %>
+<%- include('../layouts/script/notificationsscript.ejs'); %>
+</html>
