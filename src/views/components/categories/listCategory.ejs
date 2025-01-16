@@ -1,0 +1,31 @@
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Product Category List</h4>
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-head-bg-success">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Image</th>
+              <th scope="col">Code</th>
+              <th scope="col">Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% categories.forEach(function(Category, index){ %>
+            <tr>
+              <td><%=index%></td>
+              <td>
+                <img src="<%=Category.image%>" alt="image" class="category-label" />
+              </td>
+              <td><%=Category.code%></td>
+              <td><%=Category.name%></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
