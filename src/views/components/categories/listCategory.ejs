@@ -1,6 +1,9 @@
 <div class="content">
-  <div class="container-fluid">
-    <h4 class="page-title">Product Category List</h4>
+  <div class="container">
+    <div class="flex items-center justify-content-between mb-4">
+      <h4 class="page-title mb-0">Product Category List</h4>
+      <a class="btn btn-default" href="/categories/create">Create Products</a>
+    </div>
     <div class="card">
       <div class="card-body">
         <table class="table table-head-bg-success">
@@ -15,7 +18,7 @@
           <tbody>
             <% categories.forEach(function(Category, index){ %>
             <tr>
-              <td><%=index%></td>
+              <td><%=index+1%></td>
               <td>
                 <img src="<%=Category.image%>" alt="image" class="category-label" />
               </td>

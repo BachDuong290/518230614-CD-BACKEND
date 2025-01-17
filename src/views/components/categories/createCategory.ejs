@@ -1,0 +1,45 @@
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Create New Product Category</h4>
+    <div class="card">
+      <div class="card-body">
+        <form action="/categories/create" method="post">
+          <div class="form-group">
+            <label for="code">ID Type Product</label>
+            <input
+              name="code"
+              type="text"
+              class="form-control"
+              id="code"
+              placeholder="Enter ID product"
+            />
+          </div>
+          <div class="form-group">
+            <label for="name">Name Type Product</label>
+            <input
+              name="name"
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Enter name product"
+            />
+          </div>
+          <div class="form-group">
+            <label for="image">Link Image</label>
+            <input
+              name="image"
+              type="text"
+              class="form-control"
+              id="image"
+              placeholder="Enter link image"
+            />
+          </div>
+          <div class="card-action">
+            <button class="btn btn-success">Create</button>
+            <a class="btn btn-primary" href="/categories">Return</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import router from './models/routers/index.js';
 import mongoConnect from './models/mongo/mongoConnecter.js';
+import bodyParser from 'body-parser';
 import { title } from 'process';
 
 const app = express();
@@ -13,6 +14,9 @@ app.use("/static",express.static(path.join(__dirname, 'public')))
 
 app.set("view engine", "ejs")
 app.set("views",__dirname+"/src/views")
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 
 router(app);
 
