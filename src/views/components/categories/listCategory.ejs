@@ -13,6 +13,7 @@
               <th scope="col">Image</th>
               <th scope="col">Code</th>
               <th scope="col">Name</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +25,7 @@
               </td>
               <td><%=Category.code%></td>
               <td><%=Category.name%></td>
+              <td><a class="btn btn-primary btn-sm" href="/categories/update/<%= Category._id %>">Update</a></td>
             </tr>
             <% }); %>
           </tbody>

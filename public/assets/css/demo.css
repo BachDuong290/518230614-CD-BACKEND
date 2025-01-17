@@ -119,3 +119,7 @@
 .mb-4{
 	margin-bottom: 4rem;
 }
+
+.hide{
+	display: none;
+}

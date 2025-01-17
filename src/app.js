@@ -10,6 +10,7 @@ const port = 5001
 const __dirname = path.resolve()
 
 mongoConnect();
+
 app.use("/static",express.static(path.join(__dirname, 'public')))
 
 app.set("view engine", "ejs")
