@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
-<!-- head -->
-<%- include('../../layouts/head.ejs') %>
-<body>
+  <!-- head -->
+  <%- include('../../layouts/head.ejs') %>
+  <body>
     <div class="wrapper">
-        <!-- phần header -->
-        <%- include('../../layouts/mainheader.ejs') %>
-        <!-- thanh sidebar -->
-        <%- include('../../layouts/sidebar.ejs') %>
-        <div class="main-panel">
-            <%- include('../../components/categories/listCategory.ejs'); %>
-            <!-- phần footer -->
-            <%- include('../../layouts/footer.ejs') %>
-        </div>
+      <!-- phần header -->
+      <%- include('../../layouts/mainheader.ejs') %>
+      <!-- thanh sidebar -->
+      <%- include('../../layouts/sidebar.ejs') %>
+      <div class="main-panel">
+        <%- include('../../components/categories/listCategory.ejs'); %>
+        <!-- phần footer -->
+        <%- include('../../layouts/footer.ejs') %>
+      </div>
     </div>
-
-</body>
-<!-- phần script -->
-<%- include('../../layouts/script/mainsScript.ejs'); %>
+  </body>
+  <!-- phần script -->
+  <%- include('../../layouts/script/mainsScript.ejs'); %>
+  <%- include('../../layouts/script/listCategoryScript.ejs'); %>
 </html>

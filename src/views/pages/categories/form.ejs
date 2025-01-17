@@ -18,4 +18,10 @@
 </body>
 <!-- phần script -->
 <%- include('../../layouts/script/mainsScript.ejs'); %>
+<script>
+    const mode = '<%= mode%>'
+    if(mode === "Delete"){
+        $(".categoryInput").attr("disabled", "disabled");
+    }
+</script>
 </html>

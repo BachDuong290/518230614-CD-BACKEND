@@ -123,3 +123,7 @@
 .hide{
 	display: none;
 }
+
+.white-space{
+	white-space: nowrap;
+}
