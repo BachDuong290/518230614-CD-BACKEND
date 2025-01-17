@@ -1,4 +1,4 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { deleteModel, Types } from "mongoose";
 import { updateCategory } from "../../src/controllers/categoryController.js";
 const {Schema} = mongoose;
 
@@ -7,7 +7,8 @@ const categorySchema = new Schema ({
     name: String,
     image: String,
     createdAt: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    deletedAt: Date
 }, {
     versionKey: false,
     collection: "categories"

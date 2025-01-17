@@ -3,6 +3,8 @@
     <h4 class="page-title">
       <% if (mode === "Create") { %> Create New Product Category <% } %> 
       <% if (mode === "Update") { %> Update Product Category <% } %>
+      <% if (mode === "Delet") { %> Do you agree to delete the product? <%=category?.name%>
+      <% } %>
     </h4>
     <div class="card">
       <div class="card-body">
@@ -20,6 +22,17 @@
             />
           </div>
         <% } %>
+        <% if (mode === "Delete") { %>
+          <form action="/categories/delete" method="post">
+            <div class="form-group hide">
+              <input
+                name="id"
+                type="text"
+                value="<%=category?.id%>"
+                id="id"
+              />
+            </div>
+          <% } %>
           <div class="form-group">
             <label for="code">ID Type Product</label>
             <input
@@ -29,6 +42,7 @@
               class="form-control"
               id="code"
               placeholder="Enter ID product"
+              disabled="<%= mode === 'Delete' ? true : false %>"
             />
           </div>
           <div class="form-group">
@@ -40,6 +54,7 @@
               class="form-control"
               id="name"
               placeholder="Enter name product"
+              disabled="<%= mode === 'Delete' ? true : false %>"
             />
           </div>
           <div class="form-group">
@@ -51,6 +66,7 @@
               class="form-control"
               id="image"
               placeholder="Enter link image"
+              disabled="<%= mode === 'Delete' ? true : false %>"
             />
           </div>
           <div class="card-action">
@@ -60,6 +76,9 @@
             <% if (mode === "Update") { %>
             <button class="btn btn-success">Update</button>
             <% } %>
+            <% if (mode === "Delete") { %>
+              <button class="btn btn-danger">Delete</button>
+              <% } %>
             <a class="btn btn-primary" href="/categories">Return</a>
           </div>
         </form>
