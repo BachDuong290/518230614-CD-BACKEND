@@ -64,7 +64,7 @@
         let urlParmas = new URLSearchParams(window.location.search);
         let page = urlParmas.get("page")
         let previousPage = null
-        let queryString = []
+        let queryString = [];
         if(!page){
             previousPage = 0
         }else{
@@ -79,6 +79,22 @@
             }
         });
         queryString.push("page=" + previousPage); // ["page=1", "search=ao"]
+        let url = "/categories?" + queryString.join("&&");
+        window.location.href = url;
+    }
+
+    function changeSort(event){
+        const value = event.target.value
+        console.log({value})
+        let urlParmas = new URLSearchParams(window.location.search);
+        let page = urlParmas.get("sort")
+        let queryString = [];
+        urlParmas.forEach((value, key) => {
+            if(key !== "sort"){
+                queryString.push(`${key}=${value}`);
+            }
+        });
+        queryString.push("sort=" + value);
         let url = "/categories?" + queryString.join("&&");
         window.location.href = url;
     }

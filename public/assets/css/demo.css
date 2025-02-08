@@ -127,3 +127,16 @@
 .white-space{
 	white-space: nowrap;
 }
+
+.max-w-20{
+	max-width: 20rem;
+}
+
+.mb-4px{
+	margin-bottom: 0.5rem;
+}
+
+.mr-1{
+	margin-right: 1rem;
+}
+
