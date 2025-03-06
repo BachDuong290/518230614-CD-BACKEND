@@ -9,10 +9,10 @@ const data = [
         createAt: new Date(),
     },
     {
-        code: "S_001",
-        name: "Son",
+        code: "TVS_001",
+        name: "Tư Vấn Son",
         image: "cart2.png",
-        search: "son",
+        search: "tu van son, son",
         createAt: new Date(),
     },
     {

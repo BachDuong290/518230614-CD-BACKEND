@@ -1,59 +1,92 @@
 <div class="content">
   <div class="container">
     <div class="flex items-center justify-content-between mb-4">
-      <h4 class="page-title mb-0">Product Category List</h4>
-      <a class="btn btn-default" href="/categories/create">Create Product Categories</a>
+      <h4 class="page-title mb-0">Product List</h4>
+      <a class="btn btn-default" href="/products/create">Create Products</a>
     </div>
-    <div class=" flex justify-content-end">
+    <div class="flex justify-content-end">
       <div class="form-group flex full-width items-center">
-        <label for="defaultSelect" class="white-space" style="margin-right: 10px; margin-bottom: 0 !important; display: flex; align-items: center;">Sắp Xếp</label>
-        <select class="form-control form-control max-w-20 " id="defaultSelect" onchange="changeSort(event)">
-          <% sortObjects.forEach(function(sortObject, index){ %>
-            <% if(sortObject.code === sort){ %>
-              <option value="<%= sortObject.code %>" selected ><%= sortObject.name %></option>
-            <% }%>
-            <% if(sortObject.code !== sort){%>
-              <option value="<%= sortObject.code %>"><%= sortObject.name %></option>
-            <% }%>
-          <% }); %>
+        <label
+          for="defaultSelect"
+          class="white-space"
+          style="
+            margin-right: 10px;
+            margin-bottom: 0 !important;
+            display: flex;
+            align-items: center;
+          "
+          >Sắp Xếp</label
+        >
+        <select
+          class="form-control form-control max-w-20"
+          id="defaultSelect"
+          onchange="changeSort(event)"
+        >
+          <% sortObjects.forEach(function(sortObject, index){ %> <%
+          if(sortObject.code === sort){ %>
+          <option value="<%= sortObject.code %>" selected>
+            <%= sortObject.name %>
+          </option>
+          <% }%> <% if(sortObject.code !== sort){%>
+          <option value="<%= sortObject.code %>"><%= sortObject.name %></option>
+          <% }%> <% }); %>
         </select>
       </div>
     </div>
-    <% if (categories && categories.length > 0) { %>
+    <% if (products && products.length > 0) { %>
     <div class="card">
       <div class="card-body">
         <table class="table table-head-bg-success">
           <thead>
             <tr>
               <th scope="col">STT</th>
-              <th scope="col">Image</th>
-              <th scope="col">Code</th>
-              <th scope="col">Name</th>
+              <th scope="col">Information</th>
+              <!-- name, code, active -->
+              <th scope="col">Price</th>
+              <th scope="col">Color</th>
+              <th scope="col">Capacity</th>
+              <th scope="col">Category</th>
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody id="listCategory">
-            <% categories.forEach(function(Category, index){ %>
+          <tbody id="listProduct">
+            <% products.forEach(function(product, index){ %>
             <tr>
               <td><%=index+1%></td>
               <td>
-                <img
-                  src="/static/assets/img/<%=Category.image%>"
-                  alt="image"
-                  class="category-label"
-                /> 
+                <div class="flex">
+                  <div>
+                    <img
+                      src="/static/assets/img/<%=product.images[0]%>"
+                      alt="image"
+                      class="category-label"
+                    />
+                  </div>
+                  <div>
+                    <p><%=product.code%></p>
+                    <p><%=product.name%></p>
+                    <p><%=product.active%></p>
+                  </div>
+                </div>
               </td>
-              <td><%=Category.code%></td>
-              <td><%=Category.name%></td>
+              <td><%=product.price%></td>
+              <td><div
+                class="form-group">
+                <% product.colors.forEach(function(color, index){ %>
+                <span class="span product-checkbox-label mr-1 bg-<%= color %>"></span>
+                <% }); %>
+              </div></td>
+              <td><%=product.capacity%></td>
+              <td><%=product.category?.name%></td>
               <td>
                 <a
                   class="btn btn-primary btn-sm"
-                  href="/categories/update/<%= Category._id %>"
+                  href="/products/update/<%= product._id %>"
                   >Update</a
                 >
                 <a
                   class="btn btn-danger btn-sm"
-                  href="/categories/delete/<%= Category._id %>"
+                  href="/products/delete/<%= product._id %>"
                   >Delete</a
                 >
               </td>

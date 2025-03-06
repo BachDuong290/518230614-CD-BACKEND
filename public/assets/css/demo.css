@@ -140,3 +140,32 @@
 	margin-right: 1rem;
 }
 
+.span{
+	margin: 15px;
+}
+
+.product-checkbox-label {
+    width: 32px;
+    height: 16px;
+    display: inline-block;
+    margin: -3px 8px;
+	border-radius: 8px;
+}
+
+.bg-black{
+    background-color: black;
+}
+
+.bg-red{
+	background-color: red;
+}
+
+.bg-pink{
+	background-color: pink;
+}
+
+.bg-yellow{
+	background-color: yellow;
+}
+
+

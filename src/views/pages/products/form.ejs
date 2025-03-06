@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<!-- head -->
+<%- include('../../layouts/head.ejs') %>
+<body>
+    <div class="wrapper">
+        <!-- phần header -->
+        <%- include('../../layouts/mainheader.ejs') %>
+        <!-- thanh sidebar -->
+        <%- include('../../layouts/sidebar.ejs') %>
+        <div class="main-panel">
+            <%- include('../../components/products/form.ejs'); %>
+            <!-- phần footer -->
+            <%- include('../../layouts/footer.ejs') %>
+        </div>
+    </div>
+
+</body>
+<!-- phần script -->
+<%- include('../../layouts/script/mainsScript.ejs'); %>
+<script>
+    const mode = '<%= mode%>'
+    if(mode === "Delete"){
+        $(".categoryInput").attr("disabled", "disabled");
+    }
+</script>
+</html>

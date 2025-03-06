@@ -42,35 +42,36 @@
           </div> -->
 
           <div class="form-group <%= err?.code && 'has-error has-feedback' %>">
-            <label for="code">ID Type Product</label>
+            <label for="code" class="fw-bold">ID Type Product</label>
             <input
               name="code"
               type="text"
               value="<%=category?.code%>"
               class="form-control categoryInput"
               id="code"
-              placeholder="Enter ID product"
+              placeholder="Enter ID type product"
             />
             <small class="form-text text-muted text-danger"><%= err?.code %></small>
           </div>
           <div class="form-group <%= err.name && 'has-error has-feedback' %>">
-            <label for="name">Name Type Product</label>
+            <label for="name" class="fw-bold">Name Type Product</label>
             <input
               name="name"
               type="text"
               value="<%=category?.name%>"
               class="form-control categoryInput"
               id="name"
-              placeholder="Enter name product"
+              placeholder="Enter name type product"
             />
             <small class="form-text text-muted text-danger"><%= err?.name %></small>
           </div>
           <div class="form-group <%= err.search && 'has-error has-feedback' %> ">
-            <label for="search">Search String</label>
+            <label for="search" class="fw-bold">Search String</label>
             <input name="search" type="text" value="<%=category?.search%>" class="form-control categoryInput" id="search" placeholder="Enter search string"/>
             <small class="form-text text-muted text-danger"><%= err?.search %></small>
           </div>
-            <label for="image">Link Image</label>
+          <div class="form-group <%= err.image && 'has-error has-feedback' %> ">
+            <label for="image" class="fw-bold">Link Image</label>
             <input
               name="image"
               type="text"

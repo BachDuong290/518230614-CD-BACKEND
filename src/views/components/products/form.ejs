@@ -1,0 +1,187 @@
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">
+      <% if (mode === "Create") { %> Create New Product <% } %> 
+      <% if (mode === "Update") { %> Update Product <% } %>
+      <% if (mode === "Delete") { %> Do you agree to delete the product? <%=category?.name%>
+      <% } %>
+    </h4>
+
+    <div class="card">
+      <div class="card-body">
+        <% if (mode === "Create") { %>
+        <form action="/products/create" method="post">
+        <% } %> 
+        <% if (mode === "Update") { %>
+          <form action="/products/update/<%=product?._id %>" method="post">
+          <div class="form-group hide">
+            <input
+              name="id"
+              type="text"
+              value="<%=product?.id%>"
+              id="id"
+            />
+          </div>
+        <% } %>
+        <% if (mode === "Delete") { %>
+          <form action="/categories/delete" method="post">
+            <div class="form-group hide">
+              <input
+                name="id"
+                type="text"
+                value="<%=product?.id%>"
+                id="id"
+              />
+            </div>
+          <% } %>
+
+          <div class="form-group <%= err?.code && 'has-error has-feedback' %>">
+            <label for="code" class="fw-bold">ID Product</label>
+            <input
+              name="code"
+              type="text"
+              value="<%=product?.code%>"
+              class="form-control categoryInput"
+              id="code"
+              placeholder="Enter ID product"
+            />
+            <small class="form-text text-muted text-danger"><%= err?.code %></small>
+          </div>
+
+          <div class="form-group <%= err.name && 'has-error has-feedback' %>">
+            <label for="name" class="fw-bold">Name Product</label>
+            <input
+              name="name"
+              type="text"
+              value="<%=product?.name%>"
+              class="form-control categoryInput"
+              id="name"
+              placeholder="Enter name product"
+            />
+            <small class="form-text text-muted text-danger"><%= err?.name %></small>
+          </div>
+
+          <div class="form-group <%= err.search && 'has-error has-feedback' %> ">
+            <label for="search" class="fw-bold">Search String</label>
+            <input name="search" type="text" value="<%=product?.search%>" class="form-control categoryInput" id="search" placeholder="Enter search string"/>
+            <small class="form-text text-muted text-danger"><%= err?.search %></small>
+          </div> 
+
+          <div class="form-group <%= err.price && 'has-error has-feedback' %> ">
+            <label for="price" class="fw-bold">Price Products</label>
+            <input name="price" type="number" value="<%=product?.price%>" class="form-control categoryInput" id="price" placeholder="Enter price products"/>
+            <small class="form-text text-muted text-danger"><%= err?.price %></small>
+          </div>
+
+                
+          <div class="form-group <%= err.size && 'has-error has-feedback' %> ">
+              <label for="size" class="d-block mb-2">Size</label>
+              <% sizes.forEach(function(size, index){ %>
+                <label class="form-check-label">
+                  <% if ((product.sizes || []).includes(size)) { %> 
+                    <input class="form-check-input" type="checkbox" value="<%=size%>" name="sizes" checked>
+                  <%} else {%>
+                    <input class="form-check-input" type="checkbox" value="<%=size%>" name="sizes">
+                    <%}%>
+                    <span class="form-check-sign"><%=size%></span>
+                  </label>
+                <% }); %>
+                <small class="form-text text-muted text-danger"><%= err?.size %></small>
+            </div>
+
+          <div class="form-group <%= err.capacity && 'has-error has-feedback' %> ">
+            <label for="size" class="d-block mb-2">Capacity</label>
+            <% capacitys.forEach(function(capacity, index){ %> 
+              <label class="form-check-label">
+                <% if ((product.capacity || []).includes(capacity)) { %> 
+                  <input class="form-check-input" type="checkbox" value="<%= capacity %>" name="capacity" checked>
+                <% } else { %>
+                  <input class="form-check-input" type="checkbox" value="<%= capacity %>" name="capacity">
+                <% } %>
+                <span class="form-check-sign"><%= capacity %></span>
+                <span class="span capacity-checkbox-label bg-<%= capacity %>" name="capacity"></span>
+              </label>
+            <% }); %>   
+      </div>
+
+
+          <div class="form-group <%= err.capacity && 'has-error has-feedback' %> ">
+            <label for="color" class="d-block fw-bold">Color</label>
+            <% colors.forEach(function(color, index){ %>
+                <label class="form-check-label">
+                  <% if ((product.colors || []).includes(color)) { %>
+                  <input class="form-check-input" type="checkbox" value="<%=color%>" name="colors" checked>
+              <%} else {%>
+                <input class="form-check-input" type="checkbox" value="<%=color%>" name="colors">
+                <%}%>
+              <span class="span form-check-sign mr-1"></span>
+                  <span class="span product-checkbox-label bg-<%= color %>" name="colors" ></span>
+                </label>
+              <% }); %>
+            <small class="form-text text-muted text-danger"><%= err?.color %></small>
+          </div>
+        
+          <div class="form-group <%= err.description && 'has-error has-feedback' %> ">
+            <label for="description" class="fw-bold">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="5"><%=product.description%></textarea>
+          </div>
+
+          <div class="form-group <%= err.information && 'has-error has-feedback' %> ">
+            <label for="information" class="fw-bold">Information</label>
+            <textarea class="form-control" id="information" name="information" rows="5"><%= product.information %></textarea>
+          </div>
+
+          <div class="form-group <%= err.categories && 'has-error has-feedback' %> ">
+            <label for="information" class="fw-bold">Categories</label>
+            <select class="form-control form-control max-w-20 " id="defaultSelect" name="categoryId">
+              <% categories.forEach(function(category, index){ %>
+                <%=category._id%>---<%=product?.categoryId%>
+                  <% if (String(category._id) === String(product?.categoryId)) { %>
+                  <option value="<%=category._id %>" selected><%=category.name %></option>
+                <% } else {%> 
+                  <option value="<%=category._id %>" ><%=category.name %></option>
+                  <% }%> 
+              <% }); %>
+            </select>
+          </div>
+          
+          <div class="form-group <%= err.images && 'has-error has-feedback' %> ">
+            <label for="images" class="fw-bold">Link Image</label>
+            <input
+              name="images"
+              type="text"
+              value="<%=typeof product?.images === 'object' ? product?.images[0] : '' %>"
+              class="form-control categoryInput"
+              id="images"
+              placeholder="Enter link image"
+            />
+            <small class="form-text text-muted text-danger"><%= err?.images %></small>
+          </div>
+
+
+          <div class="form-group <%= err.active && 'has-error has-feedback' %> ">
+            <label for="active" class="fw-bold">Active</label>
+            <% if (product?.active === "on") { %>
+              <input type="checkbox" checked data-toggle="toggle" data-onstyle="info" data-style="btn-round" name="active">
+            <% } else {%> 
+              <input type="checkbox" data-toggle="toggle" data-onstyle="info" data-style="btn-round" name="active">
+              <% }%> 
+          </div>
+
+          <div class="card-action">
+            <% if (mode === "Create") { %>
+            <button class="btn btn-success">Create</button>
+            <% } %> 
+            <% if (mode === "Update") { %>
+            <button class="btn btn-success">Update</button>
+            <% } %>
+            <% if (mode === "Delete") { %>
+              <button class="btn btn-danger">Delete</button>
+              <% } %>
+            <a class="btn btn-primary" href="/products">Return</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

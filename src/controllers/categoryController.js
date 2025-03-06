@@ -1,7 +1,6 @@
 import CategoryModel from "../models/categoryModel.js";
 import { removeVietnameseAccents } from "../common/index.js";
 import { ObjectId } from "mongodb";
-import { name } from "ejs";
 
 const sortObjects = [
     {code: "name_ASC", name: "Tên tăng dần" }, 

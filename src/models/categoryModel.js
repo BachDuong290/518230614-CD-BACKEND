@@ -1,5 +1,4 @@
 import mongoose, { deleteModel, Types } from "mongoose";
-import { updateCategory } from "../../src/controllers/categoryController.js";
 const {Schema} = mongoose;
 
 const categorySchema = new Schema ({
@@ -26,8 +25,15 @@ const categorySchema = new Schema ({
     deletedAt: Date
 }, {
     versionKey: false,
-    collection: "categories"
+    collection: "categories",
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
 })
+
+// productSchema.virtual("id").get(function(){
+//     return this.id.toString()
+// })
+
 
 const CategoryModel = mongoose.model("Category", categorySchema)
 
