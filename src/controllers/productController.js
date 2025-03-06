@@ -69,7 +69,6 @@ export async function createProduct(req, res){
     const categories = await ProductModel.find({deletedAt: null})
     const {sizes: productSize, colors: productColor, capacity: productCapacity, image, ...dataOther} = req.body;
     console.log("req.body", req.body)
-    console.log("productCapacity:", productCapacity);
     let sizeArray = [], colorArray = [], capacityArray = [], imageArray = [image] 
     if (typeof productSize === "string" ){
         sizeArray = [productSize];

@@ -1,4 +1,4 @@
-import mongoose, { deleteModel, Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 const {Schema} = mongoose;
 
 const categorySchema = new Schema ({

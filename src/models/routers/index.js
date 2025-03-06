@@ -1,9 +1,12 @@
 import categoryRouter from "./categoryRouters.js";
 import productRouter from "./productRouters.js";
+import orderRouter from "./orderRouters.js";
 
 export default function router(app){
     app.use("/categories", categoryRouter)
     app.use("/products", productRouter)
+    app.use("/orders", orderRouter)
+
     app.get('/', (req, res) =>{
         res.render("pages/index", {
             title: "Home"
