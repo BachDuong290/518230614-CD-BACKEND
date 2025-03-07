@@ -3,30 +3,30 @@ import CategoryModel from "../models/categoryModel.js";
 const data = [
     {
         code: "CSD_001",
-        name: "Chăm Sóc Da",
+        name: "Skin Care",
         image: "cart1.png",
-        search: "cham soc da",
+        search: "Skin Care",
         createAt: new Date(),
     },
     {
         code: "TVS_001",
-        name: "Tư Vấn Son",
+        name: "Consulting Son",
         image: "cart2.png",
-        search: "tu van son, son",
+        search: "Consulting Son son",
         createAt: new Date(),
     },
     {
         code: "TĐ_001",
-        name: "Trang Điểm",
+        name: "Makeup",
         image: "cart3.png",
-        search: "trang diem",
+        search: "Makeup",
         createAt: new Date(),
     },
     {
         code: "CST_001",
-        name: "Chăm Sóc Tóc",
+        name: "Hair Care",
         image: "cart4.png",
-        search: "cham soc toc",
+        search: "Hair Care",
         createAt: new Date(),
     }
 ]

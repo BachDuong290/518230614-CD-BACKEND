@@ -1,9 +1,10 @@
+
 <div class="content">
   <div class="container-fluid">
     <h4 class="page-title">
       <% if (mode === "Create") { %> Create New Product <% } %> 
       <% if (mode === "Update") { %> Update Product <% } %>
-      <% if (mode === "Delete") { %> Do you agree to delete the product? <%=category?.name%>
+      <% if (mode === "Delete") { %> Do you agree to delete the product? <%=categories?.name%>
       <% } %>
     </h4>
 
@@ -13,7 +14,7 @@
         <form action="/products/create" method="post">
         <% } %> 
         <% if (mode === "Update") { %>
-          <form action="/products/update/<%=product?._id %>" method="post">
+          <form action="/products/update/<%=product._id %>" method="post">
           <div class="form-group hide">
             <input
               name="id"
@@ -24,7 +25,7 @@
           </div>
         <% } %>
         <% if (mode === "Delete") { %>
-          <form action="/categories/delete" method="post">
+          <form action="/products/delete/<%=product._id %>" method="post">
             <div class="form-group hide">
               <input
                 name="id"
@@ -72,23 +73,7 @@
             <input name="price" type="number" value="<%=product?.price%>" class="form-control categoryInput" id="price" placeholder="Enter price products"/>
             <small class="form-text text-muted text-danger"><%= err?.price %></small>
           </div>
-
-                
-          <div class="form-group <%= err.size && 'has-error has-feedback' %> ">
-              <label for="size" class="d-block mb-2">Size</label>
-              <% sizes.forEach(function(size, index){ %>
-                <label class="form-check-label">
-                  <% if ((product.sizes || []).includes(size)) { %> 
-                    <input class="form-check-input" type="checkbox" value="<%=size%>" name="sizes" checked>
-                  <%} else {%>
-                    <input class="form-check-input" type="checkbox" value="<%=size%>" name="sizes">
-                    <%}%>
-                    <span class="form-check-sign"><%=size%></span>
-                  </label>
-                <% }); %>
-                <small class="form-text text-muted text-danger"><%= err?.size %></small>
-            </div>
-
+          
           <div class="form-group <%= err.capacity && 'has-error has-feedback' %> ">
             <label for="size" class="d-block mb-2">Capacity</label>
             <% capacitys.forEach(function(capacity, index){ %> 
@@ -102,9 +87,9 @@
                 <span class="span capacity-checkbox-label bg-<%= capacity %>" name="capacity"></span>
               </label>
             <% }); %>   
-      </div>
-
-
+      
+      
+          </div>
           <div class="form-group <%= err.capacity && 'has-error has-feedback' %> ">
             <label for="color" class="d-block fw-bold">Color</label>
             <% colors.forEach(function(color, index){ %>

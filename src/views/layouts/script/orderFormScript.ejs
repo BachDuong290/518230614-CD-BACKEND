@@ -1,0 +1,71 @@
+<script>
+  $(document).on("click", ".addItem", function () {
+      $("#listProduct").append(`
+          <div class="d-flex mb-3 orderItemGroup" style="gap: 15px; align-items: center;">
+              <div class="btn btn-success addItem"><i class="la la-plus"></i></div>
+              <select class="form-control max-w-20 itemSelect" name="itemSelect">
+                  <option value="">Choose Products</option>
+                  <% products.forEach(function(product) { %>
+                      <option value="<%= product._id %>"
+                          data-colors='<%= JSON.stringify(product.colors) %>'
+                          data-capacity='<%= JSON.stringify(product.capacity) %>'
+                          data-price="<%= product.price %>">
+                          <%= product.name %>
+                      </option>
+                  <% }); %>
+              </select>
+              <input name="quantity" type="number" class="form-control categoryInput"
+                  placeholder="Enter quantity">
+              <input name="itemPrice" type="number" class="itemPrice form-control"
+                  placeholder="Discount level">
+              <select class="form-control max-w-20 itemColor" name="itemColor"></select>
+              <select class="form-control max-w-20 itemCapacity" name="itemCapacity"></select>
+              <div class="btn btn-danger itemButtonDelete"><i class="la la-trash"></i></div>
+          </div>
+      `);
+  });
+
+  // Xóa item khi click vào nút xóa
+  $(document).on("click", ".itemButtonDelete", function () {
+      $(this).closest(".orderItemGroup").remove();
+  });
+
+  // Xử lý sự kiện thay đổi sản phẩm
+  $(document).on("change", ".itemSelect", function () {
+      const selectedProduct = $(this).find("option:selected");
+
+      const capacityData = selectedProduct.attr("data-capacity");
+      const colorsData = selectedProduct.attr("data-colors");
+      const price = selectedProduct.attr("data-price") || 0;
+
+      const capacity = capacityData ? JSON.parse(capacityData) : [];
+      const colors = colorsData ? JSON.parse(colorsData) : [];
+
+      const orderItemGroup = $(this).closest(".orderItemGroup");
+
+      const capacitySelect = orderItemGroup.find(".itemCapacity");
+      const colorSelect = orderItemGroup.find(".itemColor");
+      const priceInput = orderItemGroup.find(".itemPrice");
+
+      // Xóa dữ liệu cũ trước khi cập nhật mới
+      capacitySelect.empty().append(`<option value="">Choose Capacity</option>`);
+      colorSelect.empty().append(`<option value="">Choose Colors</option>`);
+
+      // Cập nhật danh sách Capacity
+      capacity.forEach(cap => {
+          capacitySelect.append(`<option value="${cap}">${cap}</option>`);
+      });
+
+      // Cập nhật danh sách Color
+      colors.forEach(color => {
+          colorSelect.append(`<option value="${color}">${color}</option>`);
+      });
+
+      priceInput.val(price);
+  });
+
+  // Khởi chạy script khi document load xong
+  $(document).ready(function () {
+      addNewOrderItem();
+  });
+</script>

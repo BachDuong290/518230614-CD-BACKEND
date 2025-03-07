@@ -22,7 +22,7 @@ const productSchema = new Schema ({
     },
     capacity: {
         type: [String],
-        enum: ["150ml", "250ml", "550ml", "1 miếng", "Khác"]
+        enum: ["150ml", "250ml", "550ml", "1 piece", "Other"]
     },
     sizes: {
         type: [String],

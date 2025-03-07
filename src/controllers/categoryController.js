@@ -3,10 +3,10 @@ import { removeVietnameseAccents } from "../common/index.js";
 import { ObjectId } from "mongodb";
 
 const sortObjects = [
-    {code: "name_ASC", name: "Tên tăng dần" }, 
-    {code: "name_DESC", name: "Tên giảm dần" },
-    {code: "code_ASC", name: "Mã tăng dần"},
-    {code: "code_DESC", name: "Mã giảm dần"},
+    {code: "name_ASC", name: "Ascending name" }, 
+    {code: "name_DESC", name: "Descending name" },
+    {code: "code_ASC", name: "Ascending code"},
+    {code: "code_DESC", name: "Descending code"},
 ]
 
 export async function listCategory(req, res){

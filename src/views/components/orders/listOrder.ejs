@@ -1,62 +1,98 @@
 <div class="content">
   <div class="container">
     <div class="flex items-center justify-content-between mb-4">
-      <h4 class="page-title mb-0">Product Category List</h4>
-      <a class="btn btn-default" href="/categories/create">Create Product Categories</a>
+      <h4 class="page-title mb-0">Order List</h4>
+      <a class="btn btn-default" href="/orders/create"
+        >Simulation Create Order</a
+      >
     </div>
-    <div class=" flex justify-content-end">
+    <div class="flex justify-content-end">
       <div class="form-group flex full-width items-center">
-        <label for="defaultSelect" class="white-space" style="margin-right: 10px; margin-bottom: 0 !important; display: flex; align-items: center;">
-          Arrange</label>
-        <select class="form-control form-control max-w-20 " id="defaultSelect" onchange="changeSort(event)">
-          <% sortObjects.forEach(function(sortObject, index){ %>
-            <% if(sortObject.code === sort){ %>
-              <option value="<%= sortObject.code %>" selected ><%= sortObject.name %></option>
-            <% }%>
-            <% if(sortObject.code !== sort){%>
-              <option value="<%= sortObject.code %>"><%= sortObject.name %></option>
-            <% }%>
-          <% }); %>
+        <label
+          for="defaultSelect"
+          class="white-space"
+          style="
+            margin-right: 10px;
+            margin-bottom: 0 !important;
+            display: flex;
+            align-items: center;
+          "
+          >Arrange</label
+        >
+        <select
+          class="form-control form-control max-w-20"
+          id="defaultSelect"
+          onchange="changeSort(event)"
+        >
+          <% sortObjects.forEach(function(sortObject, index){ %> <%
+          if(sortObject.code === sort){ %>
+          <option value="<%= sortObject.code %>" selected>
+            <%= sortObject.name %>
+          </option>
+          <% }%> <% if(sortObject.code !== sort){%>
+          <option value="<%= sortObject.code %>"><%= sortObject.name %></option>
+          <% }%> <% }); %>
         </select>
       </div>
     </div>
-    <% if (categories && categories.length > 0) { %>
+
+    <% if (orders && orders.length > 0) { %>
     <div class="card">
       <div class="card-body">
         <table class="table table-head-bg-success">
           <thead>
             <tr>
-              <th scope="col">STT</th>
-              <th scope="col">Image</th>
-              <th scope="col">Code</th>
-              <th scope="col">Name</th>
+              <th scope="col">Invoice code</th>
+              <th scope="col">Price</th>
+              <th scope="col">Products</th>
+              <th scope="col">Discount</th>
+              <th scope="col">Status</th>
+              <th scope="col">Total bill</th>
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody id="listCategory">
-            <% categories.forEach(function(Category, index){ %>
+          <tbody id="listOrder">
+            <% orders.forEach(function(order, index){ %>
             <tr>
-              <td><%=index+1%></td>
+              <td><%=order.orderNo%></td>
+
               <td>
-                <img
-                  src="/static/assets/img/<%=Category.image%>"
-                  alt="image"
-                  class="category-label"
-                /> 
+                <div class="form-group gap-2">
+                  <% order.orderItems.forEach(function(orderItem, index){ %>
+                  <p><%=orderItem.quantity%> x <%=orderItem?.product?.name%></p>
+                  <% }); %>
+                </div>
               </td>
-              <td><%=Category.code%></td>
-              <td><%=Category.name%></td>
+
               <td>
+                <div class="form-group gap-2">
+                  <% order.orderItems.forEach(function(orderItem, index){ %>
+                  <p><%= orderItem.priceFormatString%></p>
+                  <% }); %>
+                </div>
+              </td>
+
+              <td><%=order.discount%>%</td>
+              <td class="<%=order.status%> fw-bold"><%=order.status%></td>
+              <td><%=order.totalFormatString%> VND</td>
+
+              <td>
+                <%if(order.status !== "canceled" || order.status !== "completed" ){ %>
+                  <%if(order.status !== "delivering"){ %>
+                  <button
+                  class="btn btn-info btn-sm "
+                  onclick="changeStatus('<%= order._id %>')"
+                  >Delivery</button>
+                <% }%>
                 <a
                   class="btn btn-primary btn-sm"
-                  href="/categories/update/<%= Category._id %>"
-                  >Update</a
-                >
+                  href="/orders/update/<%= order._id %>"
+                  >Complete</a>
                 <a
                   class="btn btn-danger btn-sm"
-                  href="/categories/delete/<%= Category._id %>"
-                  >Delete</a
-                >
+                  href="/orders/update/<%= order._id %>"
+                  >Cancel order</a>
+                <% }%>
               </td>
             </tr>
             <% }); %>

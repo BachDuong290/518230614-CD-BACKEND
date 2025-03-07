@@ -4,14 +4,14 @@ import { removeVietnameseAccents } from "../common/index.js";
 import { ObjectId } from "mongodb";
 
 const sortObjects = [
-    {code: "name_ASC", name: "Tên tăng dần" }, 
-    {code: "name_DESC", name: "Tên giảm dần" },
-    {code: "code_ASC", name: "Mã tăng dần"},
-    {code: "code_DESC", name: "Mã giảm dần"},
+    {code: "name_ASC", name: "Ascending name" }, 
+    {code: "name_DESC", name: "Descending name" },
+    {code: "code_ASC", name: "Ascending code"},
+    {code: "code_DESC", name: "Descending code"},
 ]
 
 const sizes = ["S", "M", "L", "XL"]
-const capacitys = ["150ml", "250ml", "550ml", "1 miếng", "Khác"]
+const capacitys = ["150ml", "250ml", "550ml", "1 piece", "Other"]
 const colors = ["black", "pink", "yellow", "red"]
 
 export async function listProduct(req, res){
@@ -27,19 +27,15 @@ export async function listProduct(req, res){
     if (search && search.length > 0){
         filters.search = {$regex: removeVietnameseAccents(search), $options: "i"}
     }
-    if(!sort){
-        sort = {createdAt: -1}
-    } else{
-        const sortArray = sort.split('_')
-        sort = { [sortArray[0]] : sortArray[1] === "ASC" ? 1 : -1}
-    }
+ 
     try {
         const countProducts = await ProductModel.countDocuments(filters)
         const products  = await ProductModel.find(filters).populate("category").skip(skip).limit(pageSize).sort(sort)
-        res.render("pages/products/listProduct", {
+        res.render("pages/products/listProduct", { 
             title: "Products",
-            products: products,
-            countPagination: Math.ceil(countProducts/pageSize),
+            products: products, 
+            capacitys:capacitys,
+            countPagination: Math.ceil(countProducts / pageSize),
             pageSize,
             page,
             sort: req.query.sort || "createdAt_DESC",
@@ -53,6 +49,7 @@ export async function listProduct(req, res){
 
 export async function renderPageCreateProduct(req, res){
     const categories = await CategoryModel.find({deletedAt: null})
+    console.log("capacitys:", capacitys); // Kiểm tra xem biến có tồn tại không
     res.render("pages/products/form", {
         title: "Create Products",
         mode: "Create",
@@ -129,7 +126,7 @@ export async function createProduct(req, res){
 }
 
 export async function renderPageUpdateProduct(req, res){
-    console.log("Sizes:", sizes);
+    console.log("capacity:", capacitys);
     try {
     const categories = await CategoryModel.find({deletedAt: null})
         const {id} = req.params;
@@ -145,10 +142,10 @@ export async function renderPageUpdateProduct(req, res){
                     colors: product.colors || [], 
                     sizes: product.sizes || []
                 },
+                capacitys: capacitys,
                 sizes: sizes,
                 colors: colors,
                 categories: categories,
-                capacitys: capacitys,
                 err: {}
             })
         }else{
@@ -159,77 +156,117 @@ export async function renderPageUpdateProduct(req, res){
     }
 }
 
-export async function updateProduct(req, res){
-    const {...data} = req.body;
-    const {id} = req.params;
-    console.log("data:", data)
+export async function updateProduct(req, res) {
     try {
-        const product= await ProductModel.findOne({code: data.code, deletedAt: null})
-        if(product){
-            throw("code")
+        const { id } = req.params;
+        const { ...data } = req.body;
+        console.log("Received data:", data);
+
+        // Lấy danh mục sản phẩm
+
+        // Kiểm tra xem sản phẩm có tồn tại không
+        const product = await ProductModel.findById(id);
+        console.log("Existing product:", product);
+
+        if (!product) {
+            return res.status(404).send("Product not found!");
         }
+
+        // Kiểm tra xem code có bị trùng không (nếu cần)
+        const existingProduct = await ProductModel.findOne({ code: data.code, _id: { $ne: id } });
+        if (existingProduct) {
+            throw "code"; // Đánh dấu lỗi code trùng
+        }
+
+        // Cập nhật sản phẩm
         await ProductModel.updateOne(
-            {  _id: new ObjectId(id), deletedAt: null },
+            { _id: id },
             {
                 ...data,
                 updatedAt: new Date()
-            })
-            res.redirect("/products")
+            }
+        );
+
+        console.log("Product updated successfully!");
+        res.redirect("/products");
     } catch (error) {
-        console.log(error)
-        console.log("error", error);
+        console.error("Update error:", error);
+        const categories = await CategoryModel.find({ deletedAt: null });
         let err = {};
-        if(error === "code"){
-            err.code = "Product code already exists!"
-        }
-        if(error.name === "ValidationError"){
-            Object.keys(error.errors).forEach(key => {
+        if (error === "code") {
+            err.code = "Product code already exists!";
+        } else if (error.name === "ValidationError") {
+            Object.keys(error.errors).forEach((key) => {
                 err[key] = error.errors[key].message;
             });
         }
-        console.log("err", err);
 
         res.render("pages/products/form", {
             title: "Update Products",
             mode: "Update",
-            product: {...data, id: id},
+            product: { ...data, id: id },
+            capacitys: capacitys,
+            colors: colors,
+            categories: categories,
             err
-        })
+        });
     }
 }
 
-export async function renderPageDeleteProduct(req, res){
+export async function renderPageDeleteProduct(req, res) {
     try {
-        const {id} = req.params;
-        const category = await ProductModel.findOne({_id: new ObjectId(id), deletedAt: null})
-    if (category){
-        res.render("pages/categories/form", {
-            title: "Delete Categories",
+        const { id } = req.params;
+
+        // Lấy danh sách danh mục
+        const categories = await CategoryModel.find();
+
+        // Tìm sản phẩm theo ID
+        const product = await ProductModel.findOne({ _id: id, deletedAt: null });
+
+        if (!product) {
+            return res.send("There are currently no matching products!");
+        }
+
+        // Đảm bảo biến capacitys, sizes, colors có giá tr
+
+        res.render("pages/products/form", {
+            title: "Delete Products",
             mode: "Delete",
-            category: category,
+            product: { 
+                ...product.toObject(), 
+                capacity: product.capacity || [], 
+                colors: product.colors || [], 
+                sizes: product.sizes || []
+            },
+            capacitys: capacitys,
+            sizes: sizes,
+            colors: colors,
+            categories: categories,
             err: {}
-        })
-    }else{
-        res.send("There are currently no matching products!")
-    }
+        });
     } catch (error) {
-        console.log(error)
-        res.send("Website does not exist!")
+        console.error("Error:", error);
+        res.send("Website does not exist!");
     }
 }
 
-export async function deleteProduct(req, res){
-    const {id} = req.body;
+export async function deleteProduct(req, res) {
+    const { id } = req.body;
     try {
-        await ProductModel.updateOne(
-            {  _id: new ObjectId(id) },
-            {
-                deletedAt: new Date()
-            })
-            res.redirect("/products")
+        const deletedProduct = await ProductModel.findByIdAndDelete(
+            id,
+            { deletedAt: new Date() }, // Đánh dấu là đã xóa (soft delete)
+            { new: true }
+        );
+
+        if (!deletedProduct) {
+            return res.status(404).send("Product not found!");
+        }
+
+        res.redirect("/products");
     } catch (error) {
-        console.log(error)
-        res.send("Delete product failed!");
+        console.error(error);
+        res.status(500).send("Delete product failed!");
     }
 }
 

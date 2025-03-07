@@ -168,4 +168,22 @@
 	background-color: yellow;
 }
 
+.gap-2{
+	gap: 2rem;
+}
 
+.created{
+    color: black;
+}
+
+.canceled	{
+	color: red;
+}
+
+.delivering{
+	color: rgb(226, 226, 31);
+}
+
+.completed{
+	color: rgb(29, 160, 116);
+}

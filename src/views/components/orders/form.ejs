@@ -1,0 +1,125 @@
+<%- include('../../layouts/script/orderFormScript.ejs'); %>
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">
+      <% if (mode === "Create") { %> Simulate Create New Order <% } %> 
+    </h4>
+
+    <div class="card">
+      <div class="card-body">
+        <form action="/orders/simulatorCreate" method="post">
+
+          <h6 for="code" class="fw-bold">Discount Level</h6>
+          <div class="form-group <%= err?.discount && 'has-error has-feedback' %>">
+            <input
+              name="discount"
+              type="number"
+              value="<%=order?.discount%>"
+              class="form-control categoryInput"
+              id="discount"
+              placeholder="Enter discount code"
+            />
+            <small class="form-text text-muted text-danger"><%= err?.discount %></small>
+          </div>
+
+          <h6 for="discount" class="fw-bold">List Products</h6>
+          <div class="form-group">
+              <div id="listProduct">
+                <div class="d-flex mb-3 orderItemGroup" style="gap: 15px; align-items: center;">
+                  <div class="btn btn-success addItem"><i class="la la-plus"></i></div>
+                  <select class="form-control max-w-20 itemSelect" name="itemSelect">
+                      <option value="">Choose Products</option>
+                      <% products.forEach(function(product) { %>
+                          <option value="<%= product._id %>"
+                              data-colors='<%= JSON.stringify(product.colors) %>'
+                              data-capacity='<%= JSON.stringify(product.capacity) %>'
+                              data-price="<%= product.price %>">
+                              <%= product.name %>
+                          </option>
+                      <% }); %>
+                  </select>
+                  <input name="quantity" type="number" class="form-control categoryInput"
+                      placeholder="Enter quantity">
+                  <input name="itemPrice" type="number" class="itemPrice form-control"
+                      placeholder="Discount level">
+                  <select class="form-control max-w-20 itemColor" name="itemColor"></select>
+                  <select class="form-control max-w-20 itemCapacity" name="itemCapacity"></select>
+                  <div class="btn btn-danger itemButtonDelete"><i class="la la-trash"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <h6 for="discount" class="fw-bold">Delivery Address</h6>
+          <div class="form-group">
+            <label for="discount" class="fw-bold">Customer Name</label>
+            <input
+              name="bllingName"
+              type="text"
+              class="form-control categoryInput"
+              id="bllingName"
+              placeholder="Enter the customer's name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="discount" class="fw-bold">Email</label>
+            <input
+              name="bllingEmail"
+              type="email"
+              class="form-control categoryInput"
+              id="bllingEmail"
+              placeholder="Enter email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="discount" class="fw-bold">Phone Number</label>
+            <input
+              name="bllingPhoneNumber"
+              type="number"
+              class="form-control categoryInput"
+              id="bllingPhoneNumber"
+              placeholder="Enter Phone Number"
+            />
+          </div>
+          <div class="form-group">
+            <label for="discount" class="fw-bold">Address</label>
+            <input
+              name="bllingAddress"              
+              type="text"
+              class="form-control categoryInput"
+              id="bllingAddress"
+              placeholder="Enter Address"
+            />
+          </div>
+          <div class="form-group">
+            <label for="discount" class="fw-bold">District</label>
+            <input
+              name="bllingdistrict"              
+              type="text"
+              class="form-control categoryInput"
+              id="bllingdistrict"
+              placeholder="Enter District"
+            />
+          </div>
+          <div class="form-group">
+            <label for="discount" class="fw-bold">City</label>
+            <input
+              name="bllingCity"              
+              type="text"
+              class="form-control categoryInput"
+              id="bllingCity"
+              placeholder="Enter City"
+            />
+          </div>
+
+          <div class="card-action">
+            <button class="btn btn-success">Create</button>
+
+            <a class="btn btn-primary" href="/orders">List Orders</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -19,6 +19,6 @@ router.get("/update/:id", renderPageUpdateProduct)
 router.post("/update/:id", updateProduct)
 
 router.get("/delete/:id", renderPageDeleteProduct)  
-router.post("/delete", deleteProduct)
+router.post("/delete/:id", deleteProduct)
 
 export default router;
