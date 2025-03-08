@@ -185,7 +185,6 @@ export async function updateStatusDeliveringOrder(req, res) {
     const currentOrder = await OrderModel.findOne({_id: new ObjectId(orderId)},)
 
     try {
-        console.log(rs)
         if(currentOrder){
             const rs = await OrderModel.updateOne({_id: new ObjectId(orderId)},
         {
